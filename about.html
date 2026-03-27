@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>About Us — MediCare</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .page-hero {
+      padding:140px 5% 80px;
+      background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);
+      position:relative;overflow:hidden;
+    }
+    .page-hero::before {
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse 70% 80% at 80% 50%, rgba(10,124,124,0.15) 0%, transparent 70%);
+    }
+    .page-hero .eyebrow { color:var(--teal-light); }
+    .page-hero h1 { color:white; }
+    .page-hero p { color:rgba(255,255,255,0.55); max-width:520px; margin-top:14px; font-size:1.05rem; }
+
+    .mission-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; padding:104px 5%; align-items:center; }
+    .mission-mini-stats { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:36px; }
+    .mini-stat { background:var(--mist); border-radius:var(--radius-lg); padding:22px; border:1px solid var(--border); }
+    .mini-stat .num { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:var(--teal-dark); }
+    .mini-stat .lbl { font-size:0.78rem; color:var(--muted); margin-top:3px; font-weight:500; }
+
+    .values-card {
+      background:linear-gradient(135deg,var(--teal-dark),var(--teal));
+      border-radius:var(--radius-xl);padding:50px 44px;color:white;
+    }
+    .value-item { display:flex; gap:14px; align-items:flex-start; margin-bottom:22px; }
+    .value-item:last-child { margin-bottom:0; }
+    .value-icon { font-size:1.5rem; flex-shrink:0; margin-top:2px; }
+    .value-item strong { display:block; color:rgba(255,255,255,0.9); margin-bottom:4px; font-size:1rem; }
+    .value-item span { font-size:0.85rem; color:rgba(255,255,255,0.6); line-height:1.65; }
+
+    .stats-grid {
+      display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+      background:linear-gradient(135deg,var(--teal-dark),var(--teal)); padding:64px 5%;
+    }
+    .stat-box { text-align:center; color:white; padding:20px; border-right:1px solid rgba(255,255,255,0.12); }
+    .stat-box:last-child { border-right:none; }
+    .stat-val { font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:900; }
+    .stat-lbl { font-size:0.75rem; opacity:0.65; margin-top:8px; letter-spacing:0.08em; text-transform:uppercase; font-family:'DM Mono',monospace; }
+
+    .team-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:60px; }
+    .team-card {
+      background:white; border:1px solid var(--border); border-radius:var(--radius-lg);
+      padding:30px 22px; text-align:center; transition:var(--transition); overflow:hidden; position:relative;
+    }
+    .team-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--teal),var(--teal-light)); transform:scaleX(0); transform-origin:left; transition:0.3s ease; }
+    .team-card:hover { border-color:var(--teal); box-shadow:var(--shadow-md); transform:translateY(-4px); }
+    .team-card:hover::after { transform:scaleX(1); }
+    .team-av { width:76px; height:76px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.9rem; margin:0 auto 16px; border:3px solid var(--border); }
+    .team-card h4 { font-size:1.02rem; margin-bottom:4px; }
+    .team-role { font-size:0.72rem; color:var(--teal); font-weight:700; margin-bottom:12px; font-family:'DM Mono',monospace; text-transform:uppercase; letter-spacing:0.08em; }
+    .team-card p { font-size:0.81rem; color:var(--muted); line-height:1.65; }
+    .team-book-btn { margin-top:14px; }
+
+    .timeline-section { background:var(--navy); padding:104px 5%; }
+    .timeline { max-width:800px; margin:60px auto 0; position:relative; }
+    .timeline::before { content:''; position:absolute; left:50%; top:0; bottom:0; width:2px; background:rgba(10,124,124,0.3); transform:translateX(-50%); }
+    .tl-item { display:grid; grid-template-columns:1fr 60px 1fr; gap:0; margin-bottom:48px; align-items:center; }
+    .tl-content { padding:0 32px; }
+    .tl-content.right { text-align:right; }
+    .tl-year { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:900; color:var(--teal-light); margin-bottom:6px; }
+    .tl-content h4 { color:white; margin-bottom:6px; font-size:1rem; }
+    .tl-content p { color:rgba(255,255,255,0.5); font-size:0.84rem; line-height:1.65; }
+    .tl-dot { width:18px; height:18px; background:var(--teal); border-radius:50%; margin:0 auto; border:3px solid var(--navy); box-shadow:0 0 0 4px rgba(10,124,124,0.3); }
+
+    .accred-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:60px; }
+    .accred-card { background:white; border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px; text-align:center; transition:var(--transition); }
+    .accred-card:hover { border-color:var(--teal); box-shadow:var(--shadow-md); transform:translateY(-4px); }
+    .accred-icon { font-size:2.8rem; margin-bottom:14px; }
+    .accred-card h4 { margin-bottom:10px; }
+
+    .cta-section { background:linear-gradient(135deg,var(--teal-dark),var(--teal)); padding:80px 5%; text-align:center; }
+    .cta-section h2 { color:white; margin-bottom:16px; }
+    .cta-section p { color:rgba(255,255,255,0.7); max-width:500px; margin:0 auto 36px; }
+    .cta-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+
+    @media (max-width:900px) {
+      .mission-grid { grid-template-columns:1fr; gap:44px; }
+      .stats-grid { grid-template-columns:repeat(2,1fr); }
+      .team-grid { grid-template-columns:repeat(2,1fr); }
+      .accred-grid { grid-template-columns:1fr; }
+      .timeline::before { left:24px; transform:none; }
+      .tl-item { grid-template-columns:48px 1fr; }
+      .tl-content { grid-column:2; padding:0 0 0 16px; }
+      .tl-content.right { text-align:left; }
+      .tl-dot { width:14px; height:14px; }
+    }
+    @media (max-width:600px) {
+      .team-grid { grid-template-columns:1fr; }
+      .mission-mini-stats { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar"></nav>
+
+<div class="page-hero">
+  <div class="eyebrow animate-up">Our Story</div>
+  <h1 class="animate-up s1" style="font-size:clamp(2rem,4vw,3.4rem)">Healing lives since<br><em style="color:var(--teal-light);font-style:italic">1998</em></h1>
+  <p class="animate-up s2">MediCare was founded with a single vision — to make world-class healthcare accessible to every Indian, regardless of location or income. 25 years on, that mission has never changed.</p>
+  <div class="animate-up s3" style="display:flex;gap:14px;margin-top:32px;flex-wrap:wrap">
+    <a href="booking.html" class="btn btn-primary btn-lg">Book an Appointment</a>
+    <a href="contact.html" class="btn btn-ghost btn-lg">Contact Us</a>
+  </div>
+</div>
+
+<!-- MISSION -->
+<div class="mission-grid">
+  <div class="animate-left">
+    <div class="eyebrow">Our Mission</div>
+    <h2>Compassionate care for every patient</h2>
+    <p style="margin-top:16px;margin-bottom:14px;font-size:1rem">We believe that quality healthcare is a fundamental right. Since 1998, MediCare has served over 50,000 patients across Tamil Nadu, delivering advanced medical care with a human touch.</p>
+    <p style="font-size:0.95rem">Our team of 200+ specialists works across 18 departments, supported by state-of-the-art diagnostics, a 24×7 emergency unit, and a digital-first patient experience. Every decision we make is guided by one question: <em style="color:var(--teal-dark);font-style:normal;font-weight:700">"What is best for the patient?"</em></p>
+    <div class="mission-mini-stats">
+      <div class="mini-stat"><div class="num">25+</div><div class="lbl">Years of service</div></div>
+      <div class="mini-stat"><div class="num">4.9★</div><div class="lbl">Average patient rating</div></div>
+      <div class="mini-stat"><div class="num">98.5%</div><div class="lbl">Patient satisfaction</div></div>
+      <div class="mini-stat"><div class="num">3</div><div class="lbl">Hospital locations</div></div>
+    </div>
+  </div>
+  <div class="animate-right">
+    <div class="values-card">
+      <div style="font-size:3rem;margin-bottom:22px">🏥</div>
+      <h3 style="color:white;margin-bottom:24px">Our Core Values</h3>
+      <div class="value-item">
+        <span class="value-icon">❤️</span>
+        <div><strong>Compassion</strong><span>Every patient is treated with dignity, empathy, and respect — regardless of their background.</span></div>
+      </div>
+      <div class="value-item">
+        <span class="value-icon">🔬</span>
+        <div><strong>Excellence</strong><span>We hold ourselves to the highest clinical standards, continuously improving through research and training.</span></div>
+      </div>
+      <div class="value-item">
+        <span class="value-icon">🤝</span>
+        <div><strong>Integrity</strong><span>Transparent pricing, honest communication, and ethical practice — always, without exception.</span></div>
+      </div>
+      <div class="value-item">
+        <span class="value-icon">⚡</span>
+        <div><strong>Innovation</strong><span>Embracing technology — from digital booking to AI diagnostics — to deliver better outcomes faster.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-grid">
+  <div class="stat-box animate-up"><div class="stat-val" data-count="50000" data-suffix="+">50,000+</div><div class="stat-lbl">Patients Served</div></div>
+  <div class="stat-box animate-up s1"><div class="stat-val" data-count="200" data-suffix="+">200+</div><div class="stat-lbl">Specialist Doctors</div></div>
+  <div class="stat-box animate-up s2"><div class="stat-val" data-count="18">18</div><div class="stat-lbl">Departments</div></div>
+  <div class="stat-box animate-up s3"><div class="stat-val">24×7</div><div class="stat-lbl">Emergency Care</div></div>
+</div>
+
+<!-- LEADERSHIP TEAM -->
+<section class="section">
+  <div class="section-header center">
+    <div class="eyebrow animate-up">Leadership Team</div>
+    <h2 class="animate-up s1">The doctors leading<br>MediCare's vision</h2>
+    <p class="animate-up s2" style="margin-top:14px">Our specialists are handpicked from the country's premier medical institutions — AIIMS, CMC Vellore, NIMHANS, and beyond.</p>
+  </div>
+  <div class="team-grid">
+    <div class="team-card animate-up">
+      <div class="team-av" style="background:linear-gradient(135deg,#0a7c7c,#12a8a8)">👨‍⚕️</div>
+      <h4>Dr. Ramesh Iyer</h4><div class="team-role">Medical Director · Cardiology</div>
+      <p>MBBS, MD, DM (AIIMS Delhi). 18 yrs. Pioneer of minimally invasive cardiac surgery in Tamil Nadu.</p>
+      <a href="booking.html?doctor=1" class="btn btn-outline btn-sm team-book-btn">Book Appointment</a>
+    </div>
+    <div class="team-card animate-up s1">
+      <div class="team-av" style="background:linear-gradient(135deg,#3a5a8a,#5a7aaa)">👩‍⚕️</div>
+      <h4>Dr. Meera Krishnan</h4><div class="team-role">Chief Neurologist</div>
+      <p>MBBS, MD, DM Neurology (CMC Vellore). 14 yrs. Epilepsy & stroke care specialist.</p>
+      <a href="booking.html?doctor=2" class="btn btn-outline btn-sm team-book-btn">Book Appointment</a>
+    </div>
+    <div class="team-card animate-up s2">
+      <div class="team-av" style="background:linear-gradient(135deg,#4a6741,#6b8f62)">👨‍⚕️</div>
+      <h4>Dr. Arjun Pillai</h4><div class="team-role">Head of Paediatrics</div>
+      <p>MBBS, DCH, MD (Paeds). 10 yrs. Specialises in neonatal care and childhood developmental disorders.</p>
+      <a href="booking.html?doctor=3" class="btn btn-outline btn-sm team-book-btn">Book Appointment</a>
+    </div>
+    <div class="team-card animate-up s3">
+      <div class="team-av" style="background:linear-gradient(135deg,#8a5a10,#c8882a)">👩‍⚕️</div>
+      <h4>Dr. Sunita Rao</h4><div class="team-role">Chief of Orthopaedics</div>
+      <p>MBBS, MS (Ortho). 16 yrs. 2,000+ joint replacements with a 98.5% success rate.</p>
+      <a href="booking.html?doctor=4" class="btn btn-outline btn-sm team-book-btn">Book Appointment</a>
+    </div>
+    <div class="team-card animate-up">
+      <div class="team-av" style="background:linear-gradient(135deg,#6a3a8a,#9a5aba)">👨‍⚕️</div>
+      <h4>Dr. Vikram Nair</h4><div class="team-role">Head of Dermatology</div>
+      <p>MBBS, DVD, MD (Derma). 9 yrs. Laser skin specialist. Published researcher in psoriasis treatments.</p>
+      <a href="booking.html?doctor=5" class="btn btn-outline btn-sm team-book-btn">Book Appointment</a>
+    </div>
+    <div class="team-card animate-up s1">
+      <div class="team-av" style="background:linear-gradient(135deg,#8b3a2a,#b05040)">👩‍⚕️</div>
+      <h4>Dr. Ananya Sharma</h4><div class="team-role">Chief Gynaecologist</div>
+      <p>MBBS, DGO, MS (OBG). 12 yrs. Women's health champion with expertise in minimally invasive surgery.</p>
+      <a href="booking.html?doctor=6" class="btn btn-outline btn-sm team-book-btn">Book Appointment</a>
+    </div>
+    <div class="team-card animate-up s2">
+      <div class="team-av" style="background:linear-gradient(135deg,#1a4a1a,#3a7a3a)">👨‍⚕️</div>
+      <h4>Dr. Pradeep Kumar</h4><div class="team-role">Senior Physician · General Medicine</div>
+      <p>MBBS, MD (Medicine). 20 yrs. Primary care expert, loved for his patient-first approach.</p>
+      <a href="booking.html?doctor=7" class="btn btn-outline btn-sm team-book-btn">Book Appointment</a>
+    </div>
+    <div class="team-card animate-up s3">
+      <div class="team-av" style="background:linear-gradient(135deg,#1a3a5a,#3a6a9a)">👩‍⚕️</div>
+      <h4>Dr. Lakshmi Devi</h4><div class="team-role">Senior Cardiologist</div>
+      <p>MBBS, MD, DM (Cardio). 22 yrs. Interventional cardiologist with expertise in complex angioplasty.</p>
+      <a href="booking.html?doctor=8" class="btn btn-outline btn-sm team-book-btn">Book Appointment</a>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:48px">
+    <a href="doctors.html" class="btn btn-primary btn-lg">View All 200+ Doctors →</a>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<div class="timeline-section">
+  <div class="section-header center">
+    <div class="eyebrow animate-up" style="color:var(--teal-light)">Our Journey</div>
+    <h2 class="animate-up s1" style="color:white">25 years of<br>healing excellence</h2>
+  </div>
+  <div class="timeline">
+    <div class="tl-item animate-up">
+      <div class="tl-content right"><div class="tl-year">1998</div><h4>Founded in Chennai</h4><p>MediCare opens its first clinic in Teynampet with 5 doctors and a vision to change healthcare in Tamil Nadu.</p></div>
+      <div class="tl-dot"></div>
+      <div></div>
+    </div>
+    <div class="tl-item animate-up s1">
+      <div></div>
+      <div class="tl-dot"></div>
+      <div class="tl-content"><div class="tl-year">2005</div><h4>NABH Accreditation</h4><p>MediCare becomes one of the first hospitals in Tamil Nadu to receive the prestigious NABH accreditation.</p></div>
+    </div>
+    <div class="tl-item animate-up s2">
+      <div class="tl-content right"><div class="tl-year">2010</div><h4>Madurai Expansion</h4><p>Second hospital opens in Madurai, bringing specialist care to central Tamil Nadu with 180 beds.</p></div>
+      <div class="tl-dot"></div>
+      <div></div>
+    </div>
+    <div class="tl-item animate-up">
+      <div></div>
+      <div class="tl-dot"></div>
+      <div class="tl-content"><div class="tl-year">2017</div><h4>Digital Transformation</h4><p>Launch of the online booking platform — 10,000 appointments in the first year alone.</p></div>
+    </div>
+    <div class="tl-item animate-up s1">
+      <div class="tl-content right"><div class="tl-year">2021</div><h4>Coimbatore Campus</h4><p>Third hospital opens in Coimbatore with a state-of-the-art cardiac catheterisation lab.</p></div>
+      <div class="tl-dot"></div>
+      <div></div>
+    </div>
+    <div class="tl-item animate-up s2">
+      <div></div>
+      <div class="tl-dot"></div>
+      <div class="tl-content"><div class="tl-year">2024</div><h4>50,000 Patients Milestone</h4><p>MediCare celebrates serving 50,000+ patients, with a 4.9-star average rating across all departments.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCREDITATIONS -->
+<section class="section" style="background:var(--mist)">
+  <div class="section-header center">
+    <div class="eyebrow animate-up">Recognised & Trusted</div>
+    <h2 class="animate-up s1">Our accreditations<br>& certifications</h2>
+  </div>
+  <div class="accred-grid">
+    <div class="accred-card animate-up"><div class="accred-icon">🏅</div><h4>NABH Accredited</h4><p>National Accreditation Board for Hospitals — the gold standard for Indian healthcare quality and patient safety.</p></div>
+    <div class="accred-card animate-up s1"><div class="accred-icon">🌐</div><h4>JCI Standards</h4><p>Aligned with Joint Commission International standards for global-level patient care quality.</p></div>
+    <div class="accred-card animate-up s2"><div class="accred-icon">🔬</div><h4>ISO 9001:2015</h4><p>Our diagnostic and laboratory services are ISO certified for accuracy, consistency and traceability.</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2 class="animate-up">Ready to experience the MediCare difference?</h2>
+  <p class="animate-up s1">Join 50,000+ patients who trust us for compassionate, world-class care. Book your appointment today.</p>
+  <div class="cta-btns animate-up s2">
+    <a href="booking.html" class="btn btn-white btn-lg">Book Appointment →</a>
+    <a href="contact.html" class="btn btn-ghost btn-lg">Contact Us</a>
+    <a href="doctors.html" class="btn btn-ghost btn-lg">Browse Doctors</a>
+  </div>
+</div>
+
+<footer></footer>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Book Appointment — MediCare</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .booking-wrap { padding:110px 5% 80px; display:grid; grid-template-columns:1fr 380px; gap:48px; align-items:start; max-width:1200px; margin:0 auto; }
+
+    /* Progress Steps */
+    .progress-bar { display:flex; align-items:center; margin-bottom:40px; }
+    .step-dot { display:flex; align-items:center; gap:10px; }
+    .step-circle { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem; border:2px solid var(--border); color:var(--muted); background:white; transition:var(--transition); flex-shrink:0; }
+    .step-circle.active { border-color:var(--teal); background:var(--teal); color:white; }
+    .step-circle.done { border-color:var(--success); background:var(--success); color:white; }
+    .step-label { font-size:0.82rem; font-weight:600; color:var(--muted); }
+    .step-label.active { color:var(--teal); }
+    .step-label.done { color:var(--success); }
+    .step-line { flex:1; height:2px; background:var(--border); margin:0 12px; transition:var(--transition); }
+    .step-line.done { background:var(--success); }
+
+    /* Booking Sections */
+    .booking-section { background:white; border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px; margin-bottom:24px; display:none; }
+    .booking-section.active { display:block; }
+    .booking-section h3 { margin-bottom:6px; }
+    .booking-section > p { font-size:0.875rem; color:var(--slate); margin-bottom:28px; }
+
+    /* Doctor selector */
+    .doctor-select-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
+    .doctor-option { border:2px solid var(--border); border-radius:var(--radius-lg); padding:16px; cursor:pointer; transition:var(--transition); display:flex; gap:12px; align-items:center; }
+    .doctor-option:hover { border-color:var(--teal); background:var(--teal-glow); }
+    .doctor-option.selected { border-color:var(--teal); background:var(--teal-glow); }
+    .dopt-avatar { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; }
+    .dopt-name { font-weight:700; font-size:0.875rem; }
+    .dopt-spec { font-size:0.75rem; color:var(--teal); font-weight:600; margin-top:2px; }
+    .dopt-fee { font-size:0.75rem; color:var(--muted); margin-top:2px; }
+
+    /* Slots */
+    .slots-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:10px; }
+    .slot-btn { padding:10px 8px; border:1.5px solid var(--border); border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:600; cursor:pointer; background:white; color:var(--navy); transition:var(--transition); text-align:center; }
+    .slot-btn:hover:not([disabled]) { border-color:var(--teal); color:var(--teal); }
+    .slot-btn.selected { border-color:var(--teal); background:var(--teal); color:white; }
+    .slot-btn[disabled] { opacity:0.4; cursor:not-allowed; text-decoration:line-through; }
+    .slots-label { font-size:0.78rem; font-weight:700; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; margin-top:20px; margin-bottom:8px; font-family:'DM Mono',monospace; }
+
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .btn-row { display:flex; justify-content:space-between; margin-top:28px; gap:12px; }
+
+    /* Confirm */
+    .confirm-box { background:var(--snow); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; }
+    .confirm-row { display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--border-light); font-size:0.875rem; gap:12px; }
+    .confirm-row:last-child { border:none; }
+    .confirm-row span:first-child { color:var(--muted); flex-shrink:0; }
+    .confirm-row span:last-child { font-weight:600; text-align:right; }
+
+    /* Success */
+    .success-screen { display:none; text-align:center; padding:40px 20px; }
+    .success-icon { font-size:5rem; margin-bottom:20px; animation:successBounce 0.6s ease; }
+    @keyframes successBounce { 0%{transform:scale(0)} 60%{transform:scale(1.15)} 100%{transform:scale(1)} }
+    .appt-id-box { background:var(--teal-glow); border:2px dashed var(--teal); border-radius:var(--radius-lg); padding:24px; margin:24px 0; }
+    .appt-id { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:var(--teal-dark); letter-spacing:0.05em; }
+
+    /* Sidebar */
+    .booking-sidebar { position:sticky; top:86px; }
+    .sidebar-card { background:white; border:1px solid var(--border); border-radius:var(--radius-lg); padding:28px; margin-bottom:20px; }
+    .sidebar-card h4 { margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--mist); font-size:1rem; }
+    .info-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; font-size:0.875rem; }
+    .info-icon { width:32px; height:32px; background:var(--teal-glow); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+    .info-row strong { display:block; font-size:0.72rem; color:var(--muted); font-weight:600; font-family:'DM Mono',monospace; text-transform:uppercase; margin-bottom:2px; }
+
+    @media (max-width:900px) { .booking-wrap { grid-template-columns:1fr; } .booking-sidebar { position:static; } }
+    @media (max-width:600px) { .doctor-select-grid { grid-template-columns:1fr; } .slots-grid { grid-template-columns:repeat(3,1fr); } .form-row { grid-template-columns:1fr; } .progress-bar { gap:4px; } .step-label { display:none; } }
+  </style>
+</head>
+<body>
+<nav class="navbar"></nav>
+
+<div class="booking-wrap">
+  <!-- MAIN BOOKING -->
+  <div class="booking-main">
+    <div class="eyebrow" style="margin-bottom:10px">Quick Booking</div>
+    <h2 style="margin-bottom:8px">Book Your Appointment</h2>
+    <p style="margin-bottom:32px;color:var(--slate)">Complete the steps below — takes less than 2 minutes.</p>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progress-bar">
+      <div class="step-dot"><div class="step-circle active" id="sc1">1</div><span class="step-label active" id="sl1">Choose Doctor</span></div>
+      <div class="step-line" id="line1"></div>
+      <div class="step-dot"><div class="step-circle" id="sc2">2</div><span class="step-label" id="sl2">Date & Time</span></div>
+      <div class="step-line" id="line2"></div>
+      <div class="step-dot"><div class="step-circle" id="sc3">3</div><span class="step-label" id="sl3">Your Details</span></div>
+      <div class="step-line" id="line3"></div>
+      <div class="step-dot"><div class="step-circle" id="sc4">4</div><span class="step-label" id="sl4">Confirm</span></div>
+    </div>
+
+    <!-- STEP 1: Choose Doctor -->
+    <div class="booking-section active" id="step1">
+      <h3>Select a Doctor</h3>
+      <p>Choose the specialist you'd like to see. Filter by department to narrow results.</p>
+      <div class="form-group" style="margin-bottom:20px">
+        <label>Filter by Department</label>
+        <select id="dept-filter" onchange="filterDoctorOptions()">
+          <option value="">All Departments</option>
+          <option>Cardiology</option><option>Neurology</option><option>Paediatrics</option>
+          <option>Orthopaedics</option><option>Dermatology</option><option>Gynaecology</option>
+          <option>General Medicine</option>
+        </select>
+      </div>
+      <div class="doctor-select-grid" id="doctor-options"></div>
+      <div id="doctor-error" style="display:none;color:var(--danger);font-size:0.82rem;margin-top:8px;font-weight:600">⚠ Please select a doctor to continue.</div>
+      <div class="btn-row" style="justify-content:flex-end">
+        <button class="btn btn-primary" onclick="goToStep(2)">Next: Choose Time →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Date & Time -->
+    <div class="booking-section" id="step2">
+      <h3>Pick a Date & Time</h3>
+      <p>Select your preferred appointment date and time slot.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Appointment Date *</label>
+          <input type="date" id="appt-date" data-required/>
+          <div class="error-msg"></div>
+        </div>
+        <div class="form-group">
+          <label>Visit Type</label>
+          <select id="visit-type" onchange="updateSidebarSummary()">
+            <option value="In-Person">In-Person Visit</option>
+            <option value="Video">Video Consultation</option>
+          </select>
+        </div>
+      </div>
+      <div class="slots-label">Morning Slots</div>
+      <div class="slots-grid" id="morning-slots"></div>
+      <div class="slots-label">Afternoon Slots</div>
+      <div class="slots-grid" id="afternoon-slots"></div>
+      <div id="slot-error" style="display:none;color:var(--danger);font-size:0.82rem;margin-top:12px;font-weight:600">⚠ Please select a time slot to continue.</div>
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goToStep(1)">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep(3)">Next: Your Details →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Patient Details -->
+    <div class="booking-section" id="step3">
+      <h3>Patient Information</h3>
+      <p>Please provide accurate details for your appointment confirmation.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="pat-name" placeholder="e.g. Ananya Kumar" data-required data-minlen="3"/>
+          <div class="error-msg"></div>
+        </div>
+        <div class="form-group">
+          <label>Age *</label>
+          <input type="number" id="pat-age" placeholder="e.g. 34" data-required min="1" max="120"/>
+          <div class="error-msg"></div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" id="pat-phone" placeholder="10-digit mobile number" data-required/>
+          <div class="error-msg"></div>
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="pat-email" placeholder="your@email.com" data-required/>
+          <div class="error-msg"></div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Gender *</label>
+          <select id="pat-gender" data-required>
+            <option value="">Select gender</option>
+            <option>Male</option><option>Female</option><option>Other</option>
+          </select>
+          <div class="error-msg"></div>
+        </div>
+        <div class="form-group">
+          <label>Blood Group</label>
+          <select id="pat-blood">
+            <option value="">Unknown / Not Sure</option>
+            <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Symptoms / Reason for Visit *</label>
+        <textarea id="pat-symptoms" rows="3" placeholder="Briefly describe your symptoms or reason for visit…" data-required data-minlen="10"></textarea>
+        <div class="error-msg"></div>
+      </div>
+      <div class="form-group">
+        <label>Known Allergies or Medical History (optional)</label>
+        <textarea id="pat-history" rows="2" placeholder="Any known allergies, existing conditions, or current medications…"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goToStep(2)">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep(4)">Review & Confirm →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Confirm -->
+    <div class="booking-section" id="step4">
+      <h3>Review Your Appointment</h3>
+      <p>Please review all details carefully before confirming.</p>
+      <div class="confirm-box" id="confirm-summary"></div>
+      <div style="margin-top:20px;padding:16px;background:var(--mist);border-radius:var(--radius-lg)">
+        <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;font-size:0.875rem;color:var(--slate)">
+          <input type="checkbox" id="consent-check" style="margin-top:2px;accent-color:var(--teal);flex-shrink:0;width:18px;height:18px"/>
+          <span>I confirm that the information provided is accurate. I agree to MediCare's terms of service and appointment cancellation policy. I understand I must arrive 15 minutes before my slot.</span>
+        </label>
+      </div>
+      <div id="consent-error" style="display:none;color:var(--danger);font-size:0.82rem;margin-top:8px;font-weight:600">⚠ Please agree to the terms to confirm your appointment.</div>
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goToStep(3)">← Edit Details</button>
+        <button class="btn btn-primary btn-lg" id="confirm-btn" onclick="submitBooking()">✓ Confirm Appointment</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS SCREEN -->
+    <div class="success-screen" id="success-screen">
+      <div class="success-icon">🎉</div>
+      <h2 style="color:var(--success)">Appointment Confirmed!</h2>
+      <p style="margin-top:10px;font-size:1.05rem">Your appointment has been successfully booked. Show your appointment ID at the reception desk.</p>
+      <div class="appt-id-box">
+        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:8px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase">Your Appointment ID</div>
+        <div class="appt-id" id="confirm-id">MC-000000</div>
+        <div style="font-size:0.8rem;color:var(--muted);margin-top:8px">Show this ID at the reception desk or quote it when you call</div>
+      </div>
+      <div id="success-details" style="text-align:left;margin-bottom:32px"></div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="doctors.html" class="btn btn-outline">Browse More Doctors</a>
+        <button class="btn btn-primary" onclick="resetBooking()">Book Another Appointment →</button>
+        <a href="../index.html" class="btn btn-ghost" style="background:var(--mist);color:var(--navy)">Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="booking-sidebar">
+    <div class="sidebar-card">
+      <h4>📋 Booking Summary</h4>
+      <div id="sidebar-summary">
+        <p style="font-size:0.875rem;color:var(--muted)">Your booking details will appear here as you complete each step.</p>
+      </div>
+    </div>
+    <div class="sidebar-card">
+      <h4>ℹ️ What to Bring</h4>
+      <div class="info-row"><div class="info-icon">🪪</div><div><strong>ID Proof</strong>Aadhaar / Passport / PAN card</div></div>
+      <div class="info-row"><div class="info-icon">📁</div><div><strong>Medical Records</strong>Previous reports or X-rays if any</div></div>
+      <div class="info-row"><div class="info-icon">💊</div><div><strong>Current Medications</strong>List of all medicines you take</div></div>
+      <div class="info-row"><div class="info-icon">💳</div><div><strong>Insurance Card</strong>For cashless claim processing</div></div>
+      <div class="info-row"><div class="info-icon">⏰</div><div><strong>Arrive Early</strong>Please come 15 mins before your slot</div></div>
+    </div>
+    <div class="sidebar-card" style="background:linear-gradient(135deg,#b83232,#7a1a1a);border:none">
+      <div style="color:white">
+        <div style="font-size:1.8rem;margin-bottom:10px">🚨</div>
+        <h4 style="color:white;margin-bottom:8px;font-size:1rem">Medical Emergency?</h4>
+        <p style="color:rgba(255,255,255,0.7);font-size:0.82rem;margin-bottom:16px">Don't wait. Our emergency team is available 24×7 with senior doctors on standby.</p>
+        <a href="tel:+911800123456" class="btn btn-white btn-sm" style="width:100%;justify-content:center;display:flex;margin-bottom:8px">📞 1800-123-456</a>
+        <a href="tel:108" class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;display:flex;border-color:rgba(255,255,255,0.4)">🚑 Dial 108</a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer></footer>
+<script src="app.js"></script>
+<script>
+// ── Data ─────────────────────────────────────────────────
+const DOCTORS = [
+  { id:1, name:'Dr. Ramesh Iyer', spec:'Cardiologist', dept:'Cardiology', emoji:'👨‍⚕️', bg:'linear-gradient(135deg,#0d7377,#14a8ad)', fee:800 },
+  { id:2, name:'Dr. Meera Krishnan', spec:'Neurologist', dept:'Neurology', emoji:'👩‍⚕️', bg:'linear-gradient(135deg,#3a5a8a,#5a7aaa)', fee:900 },
+  { id:3, name:'Dr. Arjun Pillai', spec:'Paediatrician', dept:'Paediatrics', emoji:'👨‍⚕️', bg:'linear-gradient(135deg,#4a6741,#6b8f62)', fee:600 },
+  { id:4, name:'Dr. Sunita Rao', spec:'Orthopaedic Surgeon', dept:'Orthopaedics', emoji:'👩‍⚕️', bg:'linear-gradient(135deg,#8a5a10,#c8882a)', fee:1000 },
+  { id:5, name:'Dr. Vikram Nair', spec:'Dermatologist', dept:'Dermatology', emoji:'👨‍⚕️', bg:'linear-gradient(135deg,#6a3a8a,#9a5aba)', fee:700 },
+  { id:6, name:'Dr. Ananya Sharma', spec:'Gynaecologist', dept:'Gynaecology', emoji:'👩‍⚕️', bg:'linear-gradient(135deg,#8b3a2a,#b05040)', fee:850 },
+  { id:7, name:'Dr. Pradeep Kumar', spec:'General Physician', dept:'General Medicine', emoji:'👨‍⚕️', bg:'linear-gradient(135deg,#0d7377,#085458)', fee:400 },
+  { id:8, name:'Dr. Lakshmi Devi', spec:'Senior Cardiologist', dept:'Cardiology', emoji:'👩‍⚕️', bg:'linear-gradient(135deg,#c8882a,#e8a84a)', fee:1200 },
+];
+
+const MORNING = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM'];
+const AFTERNOON = ['2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM'];
+const BOOKED = ['9:30 AM','10:30 AM','3:00 PM','4:30 PM'];
+
+let currentStep = 1;
+let selectedDoctor = null;
+let selectedSlot = null;
+let filteredDoctors = [...DOCTORS];
+
+// ── Step Navigation ───────────────────────────────────────
+function goToStep(step) {
+  // Validate before going forward
+  if (step > currentStep) {
+    if (currentStep === 1 && !selectedDoctor) {
+      document.getElementById('doctor-error').style.display = 'block';
+      return;
+    }
+    if (currentStep === 2) {
+      const dateVal = document.getElementById('appt-date').value;
+      if (!dateVal) {
+        document.getElementById('appt-date').classList.add('error');
+        document.getElementById('slot-error').style.display = 'block';
+        return;
+      }
+      if (!selectedSlot) {
+        document.getElementById('slot-error').style.display = 'block';
+        return;
+      }
+    }
+    if (currentStep === 3) {
+      const form = document.getElementById('step3');
+      if (!validateForm(form)) return;
+    }
+  }
+
+  document.querySelectorAll('.booking-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + step).classList.add('active');
+  document.getElementById('doctor-error').style.display = 'none';
+  document.getElementById('slot-error').style.display = 'none';
+  updateProgress(step);
+  if (step === 4) buildConfirmSummary();
+  updateSidebarSummary();
+  window.scrollTo({ top: 80, behavior: 'smooth' });
+  currentStep = step;
+}
+
+function updateProgress(step) {
+  for (let i = 1; i <= 4; i++) {
+    const sc = document.getElementById('sc' + i);
+    const sl = document.getElementById('sl' + i);
+    if (i < step) {
+      sc.className = 'step-circle done';
+      sc.innerHTML = '✓';
+      sl.className = 'step-label done';
+    } else if (i === step) {
+      sc.className = 'step-circle active';
+      sc.innerHTML = i;
+      sl.className = 'step-label active';
+    } else {
+      sc.className = 'step-circle';
+      sc.innerHTML = i;
+      sl.className = 'step-label';
+    }
+    if (i < 4) {
+      document.getElementById('line' + i).className = 'step-line' + (i < step ? ' done' : '');
+    }
+  }
+}
+
+// ── Doctor Options ────────────────────────────────────────
+function renderDoctorOptions() {
+  const grid = document.getElementById('doctor-options');
+  if (!filteredDoctors.length) {
+    grid.innerHTML = '<p style="color:var(--muted);font-size:0.875rem;grid-column:1/-1">No doctors found for this department. Try another.</p>';
+    return;
+  }
+  grid.innerHTML = filteredDoctors.map(d => `
+    <div class="doctor-option ${selectedDoctor?.id === d.id ? 'selected' : ''}" onclick="selectDoctor(${d.id})">
+      <div class="dopt-avatar" style="background:${d.bg}">${d.emoji}</div>
+      <div>
+        <div class="dopt-name">${d.name}</div>
+        <div class="dopt-spec">${d.spec}</div>
+        <div class="dopt-fee">₹${d.fee} / visit</div>
+      </div>
+    </div>`).join('');
+}
+
+function filterDoctorOptions() {
+  const dept = document.getElementById('dept-filter').value;
+  filteredDoctors = dept ? DOCTORS.filter(d => d.dept === dept) : [...DOCTORS];
+  renderDoctorOptions();
+}
+
+function selectDoctor(id) {
+  selectedDoctor = DOCTORS.find(d => d.id === id);
+  document.getElementById('doctor-error').style.display = 'none';
+  renderDoctorOptions();
+  updateSidebarSummary();
+}
+
+// ── Time Slots ────────────────────────────────────────────
+function renderSlots() {
+  ['morning', 'afternoon'].forEach(period => {
+    const slots = period === 'morning' ? MORNING : AFTERNOON;
+    document.getElementById(period + '-slots').innerHTML = slots.map(s => {
+      const isBooked = BOOKED.includes(s);
+      const isSel = selectedSlot === s;
+      return `<button class="slot-btn ${isSel ? 'selected' : ''}" ${isBooked ? 'disabled title="This slot is booked"' : ''} onclick="selectSlot('${s}')">${s}${isBooked ? '<br><small>Booked</small>' : ''}</button>`;
+    }).join('');
+  });
+}
+
+function selectSlot(slot) {
+  selectedSlot = slot;
+  document.getElementById('slot-error').style.display = 'none';
+  renderSlots();
+  updateSidebarSummary();
+}
+
+// ── Sidebar Summary ───────────────────────────────────────
+function updateSidebarSummary() {
+  const box = document.getElementById('sidebar-summary');
+  const lines = [];
+  if (selectedDoctor) {
+    lines.push(`<div class="info-row"><div class="info-icon">${selectedDoctor.emoji}</div><div><strong>Doctor</strong>${selectedDoctor.name}<br><span style="font-size:0.78rem;color:var(--muted)">${selectedDoctor.spec}</span></div></div>`);
+  }
+  const dateVal = document.getElementById('appt-date')?.value;
+  if (dateVal) {
+    const fmt = new Date(dateVal).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'});
+    lines.push(`<div class="info-row"><div class="info-icon">📅</div><div><strong>Date</strong>${fmt}</div></div>`);
+  }
+  if (selectedSlot) {
+    lines.push(`<div class="info-row"><div class="info-icon">⏰</div><div><strong>Time</strong>${selectedSlot}</div></div>`);
+  }
+  const visitType = document.getElementById('visit-type')?.value;
+  if (visitType) {
+    lines.push(`<div class="info-row"><div class="info-icon">${visitType==='Video'?'💻':'🏥'}</div><div><strong>Visit Type</strong>${visitType}</div></div>`);
+  }
+  if (selectedDoctor) {
+    lines.push(`<div class="info-row"><div class="info-icon">💰</div><div><strong>Consultation Fee</strong>₹${selectedDoctor.fee}</div></div>`);
+  }
+  box.innerHTML = lines.length ? lines.join('') : '<p style="font-size:0.875rem;color:var(--muted)">Your booking details will appear here as you complete each step.</p>';
+}
+
+// ── Confirm Summary ───────────────────────────────────────
+function buildConfirmSummary() {
+  const doc = selectedDoctor;
+  const date = document.getElementById('appt-date').value;
+  const fmtDate = date ? new Date(date).toLocaleDateString('en-IN', {weekday:'long',day:'numeric',month:'long',year:'numeric'}) : '';
+  document.getElementById('confirm-summary').innerHTML = `
+    <div class="confirm-row"><span>Doctor</span><span>${doc?.name}</span></div>
+    <div class="confirm-row"><span>Speciality</span><span>${doc?.spec} · ${doc?.dept}</span></div>
+    <div class="confirm-row"><span>Date</span><span>${fmtDate}</span></div>
+    <div class="confirm-row"><span>Time Slot</span><span>${selectedSlot}</span></div>
+    <div class="confirm-row"><span>Visit Type</span><span>${document.getElementById('visit-type').value}</span></div>
+    <div class="confirm-row"><span>Patient Name</span><span>${document.getElementById('pat-name').value}</span></div>
+    <div class="confirm-row"><span>Age / Gender</span><span>${document.getElementById('pat-age').value} yrs / ${document.getElementById('pat-gender').value}</span></div>
+    <div class="confirm-row"><span>Phone</span><span>${document.getElementById('pat-phone').value}</span></div>
+    <div class="confirm-row"><span>Email</span><span>${document.getElementById('pat-email').value}</span></div>
+    <div class="confirm-row"><span>Symptoms</span><span style="max-width:220px;text-align:right">${document.getElementById('pat-symptoms').value}</span></div>
+    <div class="confirm-row" style="border-top:2px solid var(--teal);margin-top:8px;padding-top:16px">
+      <span style="font-weight:700;color:var(--navy)">Consultation Fee</span>
+      <span style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:var(--teal-dark)">₹${doc?.fee}</span>
+    </div>`;
+}
+
+// ── Submit Booking ────────────────────────────────────────
+function submitBooking() {
+  if (!document.getElementById('consent-check').checked) {
+    document.getElementById('consent-error').style.display = 'block';
+    return;
+  }
+  document.getElementById('consent-error').style.display = 'none';
+
+  const btn = document.getElementById('confirm-btn');
+  btn.textContent = '⏳ Confirming…';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    const booking = {
+      doctor: selectedDoctor.name,
+      speciality: selectedDoctor.spec,
+      dept: selectedDoctor.dept,
+      date: document.getElementById('appt-date').value,
+      time: selectedSlot,
+      visitType: document.getElementById('visit-type').value,
+      patient: document.getElementById('pat-name').value,
+      age: document.getElementById('pat-age').value,
+      gender: document.getElementById('pat-gender').value,
+      phone: document.getElementById('pat-phone').value,
+      email: document.getElementById('pat-email').value,
+      symptoms: document.getElementById('pat-symptoms').value,
+      fee: selectedDoctor.fee,
+      status: 'Confirmed',
+    };
+
+    const id = Bookings.add(booking);
+    const fmtDate = new Date(booking.date).toLocaleDateString('en-IN', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+    // Hide booking steps
+    document.querySelectorAll('.booking-section').forEach(s => s.style.display = 'none');
+    document.getElementById('progress-bar').style.display = 'none';
+
+    // Show success
+    document.getElementById('confirm-id').textContent = id;
+    document.getElementById('success-details').innerHTML = `
+      <div class="confirm-box">
+        <div class="confirm-row"><span>Doctor</span><span>${booking.doctor} (${booking.speciality})</span></div>
+        <div class="confirm-row"><span>Date & Time</span><span>${fmtDate} at ${booking.time}</span></div>
+        <div class="confirm-row"><span>Visit Type</span><span>${booking.visitType}</span></div>
+        <div class="confirm-row"><span>Patient</span><span>${booking.patient} · ${booking.age} yrs</span></div>
+        <div class="confirm-row"><span>Contact</span><span>${booking.phone}</span></div>
+        <div class="confirm-row" style="border-top:2px solid var(--success);margin-top:8px;padding-top:14px">
+          <span style="font-weight:700">Consultation Fee</span>
+          <span style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900;color:var(--teal-dark)">₹${booking.fee}</span>
+        </div>
+      </div>`;
+
+    document.getElementById('success-screen').style.display = 'block';
+    window.scrollTo({ top: 80, behavior: 'smooth' });
+    showToast('Appointment booked! Confirmation ID: ' + id + ' 🎉', 'success');
+
+    btn.textContent = '✓ Confirm Appointment';
+    btn.disabled = false;
+  }, 1600);
+}
+
+function resetBooking() {
+  location.reload();
+}
+
+// ── Init ──────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const minDate = new Date().toISOString().split('T')[0];
+  const dateInput = document.getElementById('appt-date');
+  dateInput.min = minDate;
+  dateInput.addEventListener('change', () => {
+    selectedSlot = null;
+    document.getElementById('slot-error').style.display = 'none';
+    renderSlots();
+    updateSidebarSummary();
+  });
+
+  renderDoctorOptions();
+  renderSlots();
+
+  // Pre-select doctor from URL param
+  const params = new URLSearchParams(window.location.search);
+  const did = params.get('doctor');
+  if (did) {
+    selectDoctor(parseInt(did));
+  }
+  // Pre-filter dept from URL
+  const dept = params.get('dept');
+  if (dept) {
+    const sel = document.getElementById('dept-filter');
+    sel.value = dept;
+    filterDoctorOptions();
+  }
+});
+</script>
+</body>
+</html>

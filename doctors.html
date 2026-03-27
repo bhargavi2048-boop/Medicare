@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Find Doctors — MediCare</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .page-hero { padding:130px 5% 60px; background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%); }
+    .page-hero .eyebrow { color:var(--teal-light); }
+    .page-hero h1 { color:white; }
+    .page-hero p { color:rgba(255,255,255,0.6); max-width:480px; margin-top:10px; }
+    .doctors-layout { display:grid; grid-template-columns:260px 1fr; gap:40px; padding:60px 5%; align-items:start; }
+    .filter-sidebar { background:white; border:1px solid var(--border); border-radius:var(--radius-lg); padding:28px; position:sticky; top:86px; }
+    .filter-title { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; margin-bottom:20px; padding-bottom:14px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+    .clear-btn { font-size:0.78rem; color:var(--teal); cursor:pointer; background:none; border:none; font-family:'DM Sans',sans-serif; font-weight:700; }
+    .filter-section { margin-bottom:24px; }
+    .filter-section h5 { font-size:0.75rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+    .filter-option { display:flex; align-items:center; gap:10px; margin-bottom:8px; cursor:pointer; font-size:0.875rem; color:var(--slate); }
+    .filter-option input { accent-color:var(--teal); cursor:pointer; width:15px; height:15px; }
+    .fee-range input[type=range] { width:100%; accent-color:var(--teal); margin-top:8px; }
+    .fee-labels { display:flex; justify-content:space-between; font-size:0.8rem; color:var(--muted); margin-top:4px; }
+    .doctors-toolbar { display:flex; gap:12px; align-items:center; margin-bottom:28px; flex-wrap:wrap; }
+    .search-wrap { flex:1; min-width:200px; position:relative; }
+    .search-wrap svg { position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted); }
+    .search-wrap input { width:100%; padding:11px 14px 11px 40px; border:1.5px solid var(--border); border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:0.9rem; outline:none; background:white; color:var(--navy); }
+    .search-wrap input:focus { border-color:var(--teal); }
+    .sort-sel { padding:11px 14px; border:1.5px solid var(--border); border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:0.875rem; background:white; color:var(--navy); outline:none; cursor:pointer; }
+    .results-count { font-size:0.85rem; color:var(--muted); white-space:nowrap; }
+    .doctors-grid { display:grid; grid-template-columns:1fr; gap:20px; }
+    .doc-card { background:white; border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; display:grid; grid-template-columns:auto 1fr auto; gap:20px; align-items:center; transition:var(--transition); }
+    .doc-card:hover { border-color:var(--teal); box-shadow:var(--shadow-md); transform:translateX(4px); }
+    .doc-avatar-lg { width:72px; height:72px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:2.2rem; flex-shrink:0; }
+    .doc-card-name { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; margin-bottom:3px; }
+    .doc-card-spec { font-size:0.82rem; font-weight:700; color:var(--teal); margin-bottom:4px; }
+    .doc-card-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+    .doc-tag { background:var(--mist); padding:3px 10px; border-radius:999px; font-size:0.72rem; font-weight:600; color:var(--slate); }
+    .doc-right { text-align:right; min-width:160px; }
+    .doc-fee { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:800; color:var(--navy); }
+    .doc-fee-label { font-size:0.72rem; color:var(--muted); margin-bottom:10px; }
+    .doc-avail-badge { display:inline-block; padding:5px 12px; background:rgba(26,122,74,0.1); color:var(--success); border-radius:999px; font-size:0.75rem; font-weight:700; margin-bottom:12px; }
+    .no-results { text-align:center; padding:80px 20px; color:var(--muted); }
+    .no-results .icon { font-size:4rem; margin-bottom:12px; }
+    @media (max-width:900px) { .doctors-layout { grid-template-columns:1fr; } .filter-sidebar { position:static; } }
+    @media (max-width:600px) { .doc-card { grid-template-columns:auto 1fr; } .doc-right { grid-column:1/-1; text-align:left; display:flex; gap:12px; align-items:center; flex-wrap:wrap; } }
+  </style>
+</head>
+<body>
+<nav class="navbar"></nav>
+<div class="page-hero">
+  <div class="eyebrow animate-up">Our Specialists</div>
+  <h1 class="animate-up s1" style="font-size:clamp(2rem,4vw,3rem)">Find your <em style="color:var(--teal-light);font-style:italic">perfect doctor</em></h1>
+  <p class="animate-up s2">Browse 200+ verified specialists. Filter by department, rating, availability, and consultation fee.</p>
+</div>
+
+<div class="doctors-layout">
+  <aside class="filter-sidebar">
+    <div class="filter-title">Filters <button class="clear-btn" onclick="clearFilters()">Clear all</button></div>
+    <div class="filter-section">
+      <h5>Department</h5>
+      <label class="filter-option"><input type="checkbox" value="Cardiology" onchange="applyFilters()"> Cardiology</label>
+      <label class="filter-option"><input type="checkbox" value="Neurology" onchange="applyFilters()"> Neurology</label>
+      <label class="filter-option"><input type="checkbox" value="Paediatrics" onchange="applyFilters()"> Paediatrics</label>
+      <label class="filter-option"><input type="checkbox" value="Orthopaedics" onchange="applyFilters()"> Orthopaedics</label>
+      <label class="filter-option"><input type="checkbox" value="Dermatology" onchange="applyFilters()"> Dermatology</label>
+      <label class="filter-option"><input type="checkbox" value="Gynaecology" onchange="applyFilters()"> Gynaecology</label>
+      <label class="filter-option"><input type="checkbox" value="General Medicine" onchange="applyFilters()"> General Medicine</label>
+    </div>
+    <div class="filter-section">
+      <h5>Max Fee</h5>
+      <div class="fee-range">
+        <input type="range" id="max-fee" min="200" max="2000" value="2000" oninput="updateFeeLabel();applyFilters()"/>
+        <div class="fee-labels"><span>₹200</span><span id="fee-label">₹2000</span></div>
+      </div>
+    </div>
+    <div class="filter-section">
+      <h5>Rating</h5>
+      <label class="filter-option"><input type="checkbox" value="4.5" onchange="applyFilters()"> 4.5★ & above</label>
+      <label class="filter-option"><input type="checkbox" value="4.0" onchange="applyFilters()"> 4.0★ & above</label>
+    </div>
+    <div class="filter-section">
+      <h5>Availability</h5>
+      <label class="filter-option"><input type="checkbox" value="today" onchange="applyFilters()"> Available Today</label>
+    </div>
+  </aside>
+
+  <div>
+    <div class="doctors-toolbar">
+      <div class="search-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="search-input" placeholder="Search doctors by name or condition…" oninput="applyFilters()"/>
+      </div>
+      <select class="sort-sel" id="sort-sel" onchange="applyFilters()">
+        <option value="">Sort: Recommended</option>
+        <option value="rating">Highest Rated</option>
+        <option value="fee-asc">Fee: Low to High</option>
+        <option value="fee-desc">Fee: High to Low</option>
+        <option value="exp">Most Experienced</option>
+      </select>
+      <span class="results-count" id="results-count">Showing 16 doctors</span>
+    </div>
+    <div class="doctors-grid" id="doctors-grid"></div>
+  </div>
+</div>
+
+<footer></footer>
+<script src="app.js"></script>
+<script>
+const ALL_DOCTORS = [
+  { id:1, name:'Dr. Ramesh Iyer', spec:'Cardiologist', dept:'Cardiology', exp:18, rating:4.9, reviews:312, emoji:'👨‍⚕️', bg:'linear-gradient(135deg,#0d7377,#14a8ad)', avail:'today', fee:800, tags:['Heart Disease','Hypertension','ECG'] },
+  { id:2, name:'Dr. Meera Krishnan', spec:'Neurologist', dept:'Neurology', exp:14, rating:4.8, reviews:198, emoji:'👩‍⚕️', bg:'linear-gradient(135deg,#3a5a8a,#5a7aaa)', avail:'today', fee:900, tags:['Migraine','Epilepsy','Stroke'] },
+  { id:3, name:'Dr. Arjun Pillai', spec:'Paediatrician', dept:'Paediatrics', exp:10, rating:4.9, reviews:441, emoji:'👨‍⚕️', bg:'linear-gradient(135deg,#4a6741,#6b8f62)', avail:'tomorrow', fee:600, tags:['Child Health','Vaccination','Growth'] },
+  { id:4, name:'Dr. Sunita Rao', spec:'Orthopaedic Surgeon', dept:'Orthopaedics', exp:16, rating:4.7, reviews:220, emoji:'👩‍⚕️', bg:'linear-gradient(135deg,#8a5a10,#c8882a)', avail:'today', fee:1000, tags:['Joint Pain','Sports Injury','Spine'] },
+  { id:5, name:'Dr. Vikram Nair', spec:'Dermatologist', dept:'Dermatology', exp:9, rating:4.6, reviews:167, emoji:'👨‍⚕️', bg:'linear-gradient(135deg,#6a3a8a,#9a5aba)', avail:'today', fee:700, tags:['Acne','Psoriasis','Hair Loss'] },
+  { id:6, name:'Dr. Ananya Sharma', spec:'Gynaecologist', dept:'Gynaecology', exp:12, rating:4.9, reviews:389, emoji:'👩‍⚕️', bg:'linear-gradient(135deg,#8b3a2a,#b05040)', avail:'tomorrow', fee:850, tags:['Maternity','PCOS','Infertility'] },
+  { id:7, name:'Dr. Pradeep Kumar', spec:'General Physician', dept:'General Medicine', exp:20, rating:4.8, reviews:512, emoji:'👨‍⚕️', bg:'linear-gradient(135deg,#0d7377,#085458)', avail:'today', fee:400, tags:['Fever','Diabetes','Check-up'] },
+  { id:8, name:'Dr. Lakshmi Devi', spec:'Cardiologist', dept:'Cardiology', exp:22, rating:4.9, reviews:280, emoji:'👩‍⚕️', bg:'linear-gradient(135deg,#c8882a,#e8a84a)', avail:'today', fee:1200, tags:['Angioplasty','Heart Failure','Echo'] },
+  { id:9, name:'Dr. Ravi Shankar', spec:'Neurologist', dept:'Neurology', exp:11, rating:4.5, reviews:134, emoji:'👨‍⚕️', bg:'linear-gradient(135deg,#3a7a6a,#5aaa9a)', avail:'today', fee:750, tags:["Parkinson's",'Dementia','Vertigo'] },
+  { id:10, name:'Dr. Divya Menon', spec:'Paediatrician', dept:'Paediatrics', exp:7, rating:4.7, reviews:203, emoji:'👩‍⚕️', bg:'linear-gradient(135deg,#4a2a7a,#7a4aaa)', avail:'today', fee:550, tags:['Newborn Care','Nutrition','Allergy'] },
+  { id:11, name:'Dr. Suresh Babu', spec:'Orthopaedic', dept:'Orthopaedics', exp:13, rating:4.6, reviews:178, emoji:'👨‍⚕️', bg:'linear-gradient(135deg,#2a5a8a,#4a8aba)', avail:'tomorrow', fee:900, tags:['Knee Replacement','Fractures','Physio'] },
+  { id:12, name:'Dr. Kavitha Raj', spec:'Dermatologist', dept:'Dermatology', exp:8, rating:4.8, reviews:156, emoji:'👩‍⚕️', bg:'linear-gradient(135deg,#7a3a5a,#aa5a8a)', avail:'today', fee:650, tags:['Eczema','Vitiligo','Laser'] },
+  { id:13, name:'Dr. Mohan Reddy', spec:'General Physician', dept:'General Medicine', exp:25, rating:4.9, reviews:620, emoji:'👨‍⚕️', bg:'linear-gradient(135deg,#1a4a1a,#3a7a3a)', avail:'today', fee:350, tags:['BP','Thyroid','Cholesterol'] },
+  { id:14, name:'Dr. Sneha Iyer', spec:'Gynaecologist', dept:'Gynaecology', exp:9, rating:4.7, reviews:245, emoji:'👩‍⚕️', bg:'linear-gradient(135deg,#5a1a1a,#8a3a3a)', avail:'today', fee:800, tags:['Prenatal','Menstrual','Laparoscopy'] },
+  { id:15, name:'Dr. Kiran Bhat', spec:'Cardiologist', dept:'Cardiology', exp:15, rating:4.6, reviews:190, emoji:'👨‍⚕️', bg:'linear-gradient(135deg,#1a3a5a,#3a6a9a)', avail:'tomorrow', fee:950, tags:['Arrhythmia','Pacemaker','Stress Test'] },
+  { id:16, name:'Dr. Padma Nair', spec:'Neurologist', dept:'Neurology', exp:17, rating:4.9, reviews:267, emoji:'👩‍⚕️', bg:'linear-gradient(135deg,#5a3a1a,#9a6a3a)', avail:'today', fee:1100, tags:['MS','Headache','Nerve Pain'] },
+];
+
+let filtered = [...ALL_DOCTORS];
+
+function applyFilters() {
+  const search = document.getElementById('search-input').value.toLowerCase();
+  const maxFee = parseInt(document.getElementById('max-fee').value);
+  const sort = document.getElementById('sort-sel').value;
+  const depts = [...document.querySelectorAll('input[type=checkbox][value]:checked')].map(c=>c.value).filter(v=>!['4.5','4.0','today'].includes(v));
+  const minRating = document.querySelector('input[value="4.5"]:checked') ? 4.5 : document.querySelector('input[value="4.0"]:checked') ? 4.0 : 0;
+  const todayOnly = !!document.querySelector('input[value="today"]:checked');
+
+  filtered = ALL_DOCTORS.filter(d => {
+    if (search && !d.name.toLowerCase().includes(search) && !d.spec.toLowerCase().includes(search) && !d.tags.some(t=>t.toLowerCase().includes(search))) return false;
+    if (d.fee > maxFee) return false;
+    if (depts.length && !depts.includes(d.dept)) return false;
+    if (minRating && d.rating < minRating) return false;
+    if (todayOnly && d.avail !== 'today') return false;
+    return true;
+  });
+
+  if (sort === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+  else if (sort === 'fee-asc') filtered.sort((a,b) => a.fee - b.fee);
+  else if (sort === 'fee-desc') filtered.sort((a,b) => b.fee - a.fee);
+  else if (sort === 'exp') filtered.sort((a,b) => b.exp - a.exp);
+
+  renderDoctors();
+}
+
+function updateFeeLabel() { document.getElementById('fee-label').textContent = '₹' + document.getElementById('max-fee').value; }
+
+function clearFilters() {
+  document.querySelectorAll('.filter-sidebar input').forEach(c => { if(c.type==='checkbox') c.checked = false; });
+  document.getElementById('max-fee').value = 2000; updateFeeLabel();
+  document.getElementById('search-input').value = '';
+  document.getElementById('sort-sel').value = '';
+  filtered = [...ALL_DOCTORS]; renderDoctors();
+}
+
+function renderDoctors() {
+  const grid = document.getElementById('doctors-grid');
+  document.getElementById('results-count').textContent = `Showing ${filtered.length} doctor${filtered.length!==1?'s':''}`;
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="no-results"><div class="icon">🔍</div><h3>No doctors found</h3><p>Try adjusting your filters.</p><button class="btn btn-outline" onclick="clearFilters()" style="margin-top:20px">Clear Filters</button></div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(d => `
+    <div class="doc-card">
+      <div class="doc-avatar-lg" style="background:${d.bg}">${d.emoji}</div>
+      <div class="doc-mid">
+        <div class="doc-card-name">${d.name}</div>
+        <div class="doc-card-spec">${d.spec} · ${d.dept}</div>
+        <div style="font-size:0.8rem;color:var(--muted);margin:3px 0">${d.exp} yrs experience</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:4px">
+          <span style="color:var(--accent);font-size:0.85rem">★</span>
+          <span style="font-weight:700;font-size:0.875rem">${d.rating}</span>
+          <span style="font-size:0.775rem;color:var(--muted)">(${d.reviews} reviews)</span>
+        </div>
+        <div class="doc-card-tags">${d.tags.map(t=>`<span class="doc-tag">${t}</span>`).join('')}</div>
+      </div>
+      <div class="doc-right">
+        <div class="doc-fee">₹${d.fee}</div>
+        <div class="doc-fee-label">Consultation Fee</div>
+        <div class="doc-avail-badge">${d.avail === 'today' ? '✓ Available Today' : 'Available Tomorrow'}</div>
+        <a href="booking.html?doctor=${d.id}" class="btn btn-primary btn-sm" style="width:100%;justify-content:center">Book Now</a>
+      </div>
+    </div>`).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderDoctors();
+  const p = new URLSearchParams(window.location.search);
+  if (p.get('dept')) {
+    const cb = document.querySelector(`input[value="${p.get('dept')}"]`);
+    if (cb) { cb.checked = true; applyFilters(); }
+  }
+  if (p.get('name')) { document.getElementById('search-input').value = p.get('name'); applyFilters(); }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Services — MediCare</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .page-hero { padding:130px 5% 70px; background:var(--mist); border-bottom:1px solid var(--border); }
+    .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:60px; }
+    .svc-card { background:white; border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px; transition:var(--transition); }
+    .svc-card:hover { border-color:var(--teal); box-shadow:var(--shadow-md); transform:translateY(-4px); }
+    .svc-icon { width:60px; height:60px; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; margin-bottom:20px; }
+    .svc-card h3 { font-size:1.2rem; margin-bottom:10px; }
+    .svc-list { list-style:none; margin-top:16px; }
+    .svc-list li { display:flex; align-items:center; gap:8px; font-size:0.875rem; color:var(--slate); margin-bottom:8px; }
+    .svc-list li::before { content:'✓'; color:var(--teal); font-weight:700; }
+
+    .packages-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:60px; }
+    .pkg-card { background:white; border:2px solid var(--border); border-radius:var(--radius-lg); padding:36px 28px; transition:var(--transition); display:flex; flex-direction:column; }
+    .pkg-card.featured { border-color:var(--teal); background:linear-gradient(135deg,var(--teal-glow),white); transform:scale(1.03); }
+    .pkg-card:hover { box-shadow:var(--shadow-lg); }
+    .pkg-name { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; margin-bottom:8px; }
+    .pkg-price { font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:800; color:var(--teal-dark); margin:16px 0 4px; }
+    .pkg-period { font-size:0.8rem; color:var(--muted); margin-bottom:20px; }
+    .pkg-features { list-style:none; margin-bottom:28px; flex:1; }
+    .pkg-features li { display:flex; align-items:center; gap:8px; font-size:0.875rem; margin-bottom:10px; color:var(--slate); }
+    .pkg-features li::before { content:'✓'; color:var(--teal); font-weight:700; }
+    .featured-tag { background:var(--teal); color:white; font-size:0.72rem; font-weight:700; padding:3px 10px; border-radius:999px; display:inline-block; margin-bottom:10px; }
+
+    .emergency-cta { background:linear-gradient(135deg,#b83232,#7a1a1a); padding:60px 5%; }
+    .emergency-inner { display:flex; align-items:center; gap:30px; max-width:960px; margin:0 auto; flex-wrap:wrap; }
+    .emergency-inner h2 { color:white; margin-bottom:10px; }
+    .emergency-inner p { color:rgba(255,255,255,0.7); margin:0; }
+    .emergency-btns { display:flex; gap:12px; flex-wrap:wrap; margin-top:0; }
+
+    .why-choose { background:var(--mist); }
+    .why-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:48px; }
+    .why-item { text-align:center; padding:32px 20px; background:white; border-radius:var(--radius-lg); border:1px solid var(--border); transition:var(--transition); }
+    .why-item:hover { border-color:var(--teal); transform:translateY(-4px); box-shadow:var(--shadow-md); }
+    .why-item .icon { font-size:2.5rem; margin-bottom:16px; }
+    .why-item h4 { margin-bottom:10px; }
+    .why-item p { font-size:0.85rem; }
+
+    @media (max-width:900px) { .services-grid,.packages-grid { grid-template-columns:1fr; } .pkg-card.featured { transform:none; } .why-grid { grid-template-columns:repeat(2,1fr); } .emergency-inner { flex-direction:column; text-align:center; } }
+    @media (max-width:600px) { .why-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<nav class="navbar"></nav>
+
+<div class="page-hero">
+  <div class="eyebrow animate-up">What We Offer</div>
+  <h1 class="animate-up s1" style="font-size:clamp(2rem,4vw,3rem)">Comprehensive<br><em style="color:var(--teal);font-style:italic">healthcare services</em></h1>
+  <p class="animate-up s2" style="max-width:480px;margin-top:12px">From routine check-ups to complex surgeries — MediCare offers a full spectrum of medical services under one roof.</p>
+  <div class="animate-up s3" style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap">
+    <a href="booking.html" class="btn btn-primary">Book Appointment →</a>
+    <a href="doctors.html" class="btn btn-outline">Browse Doctors</a>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section">
+  <div class="section-header center">
+    <div class="eyebrow animate-up">Our Specialised Services</div>
+    <h2 class="animate-up s1">Everything you need<br>for complete care</h2>
+    <p class="animate-up s2" style="margin-top:14px">18 departments covering every branch of medicine — from diagnostics to complex surgery.</p>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card animate-up">
+      <div class="svc-icon" style="background:linear-gradient(135deg,#fee,#fdd)">❤️</div>
+      <h3>Cardiac Care</h3>
+      <p>State-of-the-art heart care from India's leading cardiologists, including diagnostics, intervention, and rehabilitation.</p>
+      <ul class="svc-list">
+        <li>ECG & Echocardiography</li>
+        <li>Angioplasty & Stenting</li>
+        <li>Cardiac Bypass Surgery</li>
+        <li>Heart Failure Management</li>
+      </ul>
+      <a href="booking.html?dept=Cardiology" class="btn btn-outline btn-sm" style="margin-top:20px">Book Consultation</a>
+    </div>
+    <div class="svc-card animate-up s1">
+      <div class="svc-icon" style="background:linear-gradient(135deg,#eef,#dde)">🧠</div>
+      <h3>Neurosciences</h3>
+      <p>Advanced neurology and neurosurgery for brain, spine and nervous system disorders.</p>
+      <ul class="svc-list">
+        <li>MRI & CT Brain Scans</li>
+        <li>Stroke Management</li>
+        <li>Epilepsy Treatment</li>
+        <li>Spine Surgery</li>
+      </ul>
+      <a href="booking.html?dept=Neurology" class="btn btn-outline btn-sm" style="margin-top:20px">Book Consultation</a>
+    </div>
+    <div class="svc-card animate-up s2">
+      <div class="svc-icon" style="background:linear-gradient(135deg,#efe,#dfd)">👶</div>
+      <h3>Child Health</h3>
+      <p>Dedicated paediatric care for newborns, infants, children and adolescents.</p>
+      <ul class="svc-list">
+        <li>Newborn & NICU Care</li>
+        <li>Vaccination Programme</li>
+        <li>Child Development</li>
+        <li>Adolescent Medicine</li>
+      </ul>
+      <a href="booking.html?dept=Paediatrics" class="btn btn-outline btn-sm" style="margin-top:20px">Book Consultation</a>
+    </div>
+    <div class="svc-card animate-up">
+      <div class="svc-icon" style="background:linear-gradient(135deg,#ffe,#ffd)">🦴</div>
+      <h3>Orthopaedics</h3>
+      <p>Complete bone, joint and musculoskeletal care from fractures to joint replacements.</p>
+      <ul class="svc-list">
+        <li>Knee & Hip Replacement</li>
+        <li>Sports Injury Treatment</li>
+        <li>Arthroscopic Surgery</li>
+        <li>Physiotherapy</li>
+      </ul>
+      <a href="booking.html?dept=Orthopaedics" class="btn btn-outline btn-sm" style="margin-top:20px">Book Consultation</a>
+    </div>
+    <div class="svc-card animate-up s1">
+      <div class="svc-icon" style="background:linear-gradient(135deg,#fef,#fde)">🌸</div>
+      <h3>Dermatology</h3>
+      <p>Expert skin care for all conditions, from acne to complex autoimmune skin diseases.</p>
+      <ul class="svc-list">
+        <li>Laser Skin Treatment</li>
+        <li>Hair & Scalp Analysis</li>
+        <li>Allergy Testing</li>
+        <li>Cosmetic Dermatology</li>
+      </ul>
+      <a href="booking.html?dept=Dermatology" class="btn btn-outline btn-sm" style="margin-top:20px">Book Consultation</a>
+    </div>
+    <div class="svc-card animate-up s2">
+      <div class="svc-icon" style="background:linear-gradient(135deg,#eff,#def)">🩺</div>
+      <h3>Diagnostics & Lab</h3>
+      <p>Comprehensive diagnostic services with quick turnaround and accurate results.</p>
+      <ul class="svc-list">
+        <li>Blood & Urine Tests</li>
+        <li>Radiology & Imaging</li>
+        <li>Biopsy & Pathology</li>
+        <li>Health Check Packages</li>
+      </ul>
+      <a href="booking.html" class="btn btn-outline btn-sm" style="margin-top:20px">Book a Test</a>
+    </div>
+    <div class="svc-card animate-up">
+      <div class="svc-icon" style="background:linear-gradient(135deg,#fee,#fcd)">🌺</div>
+      <h3>Gynaecology & Maternity</h3>
+      <p>Comprehensive women's health from prenatal care to complex gynaecological procedures.</p>
+      <ul class="svc-list">
+        <li>Prenatal & Postnatal Care</li>
+        <li>PCOS & Endometriosis</li>
+        <li>Laparoscopic Surgery</li>
+        <li>Fertility Consultations</li>
+      </ul>
+      <a href="booking.html?dept=Gynaecology" class="btn btn-outline btn-sm" style="margin-top:20px">Book Consultation</a>
+    </div>
+    <div class="svc-card animate-up s1">
+      <div class="svc-icon" style="background:linear-gradient(135deg,#ffe,#ffa)">🦷</div>
+      <h3>Dental Care</h3>
+      <p>Modern dentistry for the whole family — from routine cleaning to implants and orthodontics.</p>
+      <ul class="svc-list">
+        <li>Dental Implants</li>
+        <li>Braces & Aligners</li>
+        <li>Root Canal Treatment</li>
+        <li>Cosmetic Dentistry</li>
+      </ul>
+      <a href="booking.html" class="btn btn-outline btn-sm" style="margin-top:20px">Book Consultation</a>
+    </div>
+    <div class="svc-card animate-up s2">
+      <div class="svc-icon" style="background:linear-gradient(135deg,#eef,#ccf)">👁️</div>
+      <h3>Ophthalmology</h3>
+      <p>Advanced eye care including LASIK surgery, cataract removal and retinal treatment.</p>
+      <ul class="svc-list">
+        <li>LASIK & Laser Vision Correction</li>
+        <li>Cataract Surgery</li>
+        <li>Glaucoma Treatment</li>
+        <li>Retina & Vitreous Care</li>
+      </ul>
+      <a href="booking.html" class="btn btn-outline btn-sm" style="margin-top:20px">Book Consultation</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="section why-choose">
+  <div class="section-header center">
+    <div class="eyebrow animate-up">Why Choose MediCare</div>
+    <h2 class="animate-up s1">The MediCare advantage</h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-item animate-up">
+      <div class="icon">⚡</div>
+      <h4>Instant Booking</h4>
+      <p>Confirm your appointment in under 2 minutes, 24×7, from any device.</p>
+    </div>
+    <div class="why-item animate-up s1">
+      <div class="icon">🏅</div>
+      <h4>NABH Accredited</h4>
+      <p>Meets the highest national standards for patient safety and quality care.</p>
+    </div>
+    <div class="why-item animate-up s2">
+      <div class="icon">💳</div>
+      <h4>Cashless Insurance</h4>
+      <p>We accept all major insurers with hassle-free cashless claim processing.</p>
+    </div>
+    <div class="why-item animate-up s3">
+      <div class="icon">🌐</div>
+      <h4>Video Consultations</h4>
+      <p>See top doctors from home with our full HD video consultation platform.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HEALTH PACKAGES -->
+<section class="section" style="background:var(--navy)">
+  <div class="section-header center">
+    <div class="eyebrow animate-up" style="color:var(--teal-light)">Health Packages</div>
+    <h2 class="animate-up s1" style="color:white">Preventive care<br>plans for everyone</h2>
+    <p class="animate-up s2" style="color:rgba(255,255,255,0.5);margin-top:14px">Comprehensive health packages designed to keep you and your family healthy.</p>
+  </div>
+  <div class="packages-grid">
+    <div class="pkg-card animate-up">
+      <div class="pkg-name">Basic Wellness</div>
+      <p style="font-size:0.875rem;color:var(--muted)">Essential annual health check-up for young adults.</p>
+      <div class="pkg-price">₹1,499</div>
+      <div class="pkg-period">One-time package</div>
+      <ul class="pkg-features">
+        <li>Complete Blood Count</li>
+        <li>Blood Sugar (Fasting)</li>
+        <li>Lipid Profile</li>
+        <li>Urine Routine</li>
+        <li>BMI & BP Check</li>
+        <li>Doctor Consultation (30 min)</li>
+      </ul>
+      <a href="booking.html" class="btn btn-outline" style="width:100%;justify-content:center;display:flex">Book Package</a>
+    </div>
+    <div class="pkg-card featured animate-up s1">
+      <div class="featured-tag">⭐ Most Popular</div>
+      <div class="pkg-name">Comprehensive Care</div>
+      <p style="font-size:0.875rem;color:var(--slate)">Full-body health assessment including cardiac & liver panels.</p>
+      <div class="pkg-price">₹3,299</div>
+      <div class="pkg-period">One-time package</div>
+      <ul class="pkg-features">
+        <li>All Basic Wellness tests</li>
+        <li>Thyroid Function (T3/T4/TSH)</li>
+        <li>Liver & Kidney Function</li>
+        <li>Vitamin B12 & D3</li>
+        <li>ECG & Chest X-Ray</li>
+        <li>Cardiac Risk Markers</li>
+        <li>Senior Doctor Consultation (45 min)</li>
+      </ul>
+      <a href="booking.html" class="btn btn-primary" style="width:100%;justify-content:center;display:flex">Book Package</a>
+    </div>
+    <div class="pkg-card animate-up s2">
+      <div class="pkg-name">Senior Citizen Care</div>
+      <p style="font-size:0.875rem;color:var(--muted)">Tailored health package for patients aged 60 and above.</p>
+      <div class="pkg-price">₹4,999</div>
+      <div class="pkg-period">One-time package</div>
+      <ul class="pkg-features">
+        <li>All Comprehensive tests</li>
+        <li>Bone Density Scan</li>
+        <li>Eye & Hearing Test</li>
+        <li>Diabetes Management Panel</li>
+        <li>Cancer Markers (basic)</li>
+        <li>Dietitian Consultation</li>
+        <li>Specialist Doctor (60 min)</li>
+      </ul>
+      <a href="booking.html" class="btn btn-outline" style="width:100%;justify-content:center;display:flex;border-color:rgba(255,255,255,0.3);color:white">Book Package</a>
+    </div>
+  </div>
+</section>
+
+<!-- EMERGENCY CTA -->
+<div class="emergency-cta">
+  <div class="emergency-inner animate-up">
+    <div style="font-size:3rem">🚨</div>
+    <div style="flex:1">
+      <h2>Medical Emergency?</h2>
+      <p>Don't wait. Our emergency department is staffed 24×7 with senior doctors and critical care specialists.</p>
+    </div>
+    <div class="emergency-btns">
+      <a href="tel:+911800123456" class="btn btn-white btn-lg">📞 1800-123-456</a>
+      <a href="tel:108" class="btn btn-ghost btn-lg" style="border-color:rgba(255,255,255,0.4)">🚑 Dial 108</a>
+      <a href="contact.html" class="btn btn-ghost btn-lg" style="border-color:rgba(255,255,255,0.4)">📍 Find Us</a>
+    </div>
+  </div>
+</div>
+
+<footer></footer>
+<script src="app.js"></script>
+</body>
+</html>

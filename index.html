@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>MediCare — Advanced Healthcare & Appointment Booking</title>
+  <meta name="description" content="Book appointments with top specialists in Cardiology, Neurology, Paediatrics and more. Serving 50,000+ patients across Tamil Nadu."/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/home.css"/>
+</head>
+<body>
+<nav class="navbar"></nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-bg-blob1"></div>
+    <div class="hero-bg-blob2"></div>
+    <div class="hero-bg-shape"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge animate-up">
+      <span class="live-dot"></span> 2,400+ doctors available today
+    </div>
+    <h1 class="animate-up s1">Your health deserves<br><em>the best care</em></h1>
+    <p class="animate-up s2">MediCare connects you with top-rated specialists across every department — book an appointment in under 2 minutes, from anywhere in Tamil Nadu.</p>
+    <div class="hero-cta animate-up s3">
+      <a href="pages/booking.html" class="btn btn-primary btn-lg">Book Appointment →</a>
+      <a href="pages/doctors.html" class="btn btn-outline btn-lg">Browse Doctors</a>
+    </div>
+    <div class="hero-trust animate-up s4">
+      <div class="trust-item"><span class="trust-num">50k+</span><span>Patients Served</span></div>
+      <div class="trust-sep"></div>
+      <div class="trust-item"><span class="trust-num">200+</span><span>Specialists</span></div>
+      <div class="trust-sep"></div>
+      <div class="trust-item"><span class="trust-num">4.9★</span><span>Patient Rating</span></div>
+      <div class="trust-sep"></div>
+      <div class="trust-item"><span class="trust-num">25+</span><span>Years of Care</span></div>
+    </div>
+  </div>
+  <div class="hero-visual animate-fade s2">
+    <div class="hero-card main-card">
+      <div class="card-avatar" style="background:linear-gradient(135deg,#0a7c7c,#12a8a8)">👨‍⚕️</div>
+      <div class="card-info">
+        <div class="card-name">Dr. Ramesh Iyer</div>
+        <div class="card-spec">Cardiologist · 18 yrs exp.</div>
+        <div class="card-rating">★★★★★ <span>4.9 (312 reviews)</span></div>
+      </div>
+      <div class="card-avail">Available<br><strong>Today</strong></div>
+    </div>
+    <div class="hero-card mini-card mc1">
+      <div style="font-size:1.7rem">🩺</div>
+      <div><div style="font-weight:700;font-size:0.84rem">Next Slot</div><div style="color:var(--teal);font-weight:700;font-size:0.9rem">10:30 AM</div></div>
+    </div>
+    <div class="hero-card mini-card mc2">
+      <div style="font-size:1.7rem">✅</div>
+      <div><div style="font-weight:700;font-size:0.84rem">Confirmed!</div><div style="color:var(--muted);font-size:0.79rem">Appt. #MC-4821</div></div>
+    </div>
+    <div class="hero-card mini-card mc3">
+      <div style="font-size:1.5rem">⭐</div>
+      <div><div style="font-weight:700;font-size:0.82rem">Rated 4.9/5</div><div style="color:var(--muted);font-size:0.76rem">50k+ reviews</div></div>
+    </div>
+    <div class="dept-pills">
+      <span class="dept-pill">❤️ Cardiology</span>
+      <span class="dept-pill">🧠 Neurology</span>
+      <span class="dept-pill">🦴 Ortho</span>
+      <span class="dept-pill">👶 Paediatrics</span>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<div class="partners-section">
+  <div class="partners-inner">
+    <div class="partner-item"><span>🏅</span><p>NABH Accredited</p></div>
+    <div class="partner-item"><span>🌐</span><p>JCI Standards</p></div>
+    <div class="partner-item"><span>🔬</span><p>ISO 9001:2015</p></div>
+    <div class="partner-item"><span>🏥</span><p>NMC Certified</p></div>
+    <div class="partner-item"><span>💊</span><p>CDSCO Licensed</p></div>
+    <div class="partner-item"><span>🛡️</span><p>HIPAA Compliant</p></div>
+  </div>
+</div>
+
+<!-- QUICK SEARCH -->
+<section class="quick-search-section">
+  <div class="quick-search-box animate-up">
+    <h3>Find the right doctor, fast</h3>
+    <p style="font-size:0.875rem;color:var(--muted)">Search by speciality, date, or doctor name — real-time availability</p>
+    <div class="quick-search-form">
+      <div class="qs-field">
+        <label>Speciality</label>
+        <select id="qs-dept">
+          <option value="">All Departments</option>
+          <option>Cardiology</option><option>Neurology</option><option>Paediatrics</option>
+          <option>Orthopaedics</option><option>Dermatology</option><option>Gynaecology</option><option>General Medicine</option>
+        </select>
+      </div>
+      <div class="qs-field">
+        <label>Date</label>
+        <input type="date" id="qs-date"/>
+      </div>
+      <div class="qs-field">
+        <label>Doctor / Condition</label>
+        <input type="text" id="qs-name" placeholder="e.g. Dr. Sharma or migraine"/>
+      </div>
+      <button id="qs-btn" class="btn btn-primary" style="align-self:flex-end;padding:13px 30px">Search Doctors →</button>
+    </div>
+  </div>
+</section>
+
+<!-- DEPARTMENTS -->
+<section class="section depts-section">
+  <div class="section-header center">
+    <div class="eyebrow animate-up">Our Specialities</div>
+    <h2 class="animate-up s1">Expert care across<br>every department</h2>
+    <p class="animate-up s2" style="margin-top:14px">18 departments. 200+ verified specialists. World-class medical care under one roof.</p>
+  </div>
+  <div class="depts-grid">
+    <a href="pages/doctors.html?dept=Cardiology" class="dept-card animate-up">
+      <div class="dept-icon" style="background:linear-gradient(135deg,#fee,#fdd)">❤️</div>
+      <h4>Cardiology</h4><p>Heart disease, hypertension, arrhythmia & vascular conditions</p>
+      <span class="dept-count">14 doctors</span>
+    </a>
+    <a href="pages/doctors.html?dept=Neurology" class="dept-card animate-up s1">
+      <div class="dept-icon" style="background:linear-gradient(135deg,#eef,#dde)">🧠</div>
+      <h4>Neurology</h4><p>Brain, spine, nervous system & stroke care</p>
+      <span class="dept-count">9 doctors</span>
+    </a>
+    <a href="pages/doctors.html?dept=Paediatrics" class="dept-card animate-up s2">
+      <div class="dept-icon" style="background:linear-gradient(135deg,#efe,#dfd)">👶</div>
+      <h4>Paediatrics</h4><p>Child health from newborns to teenagers</p>
+      <span class="dept-count">11 doctors</span>
+    </a>
+    <a href="pages/doctors.html?dept=Orthopaedics" class="dept-card animate-up s3">
+      <div class="dept-icon" style="background:linear-gradient(135deg,#ffe,#ffd)">🦴</div>
+      <h4>Orthopaedics</h4><p>Bone, joint, spine & musculoskeletal conditions</p>
+      <span class="dept-count">8 doctors</span>
+    </a>
+    <a href="pages/doctors.html?dept=Dermatology" class="dept-card animate-up">
+      <div class="dept-icon" style="background:linear-gradient(135deg,#fef,#fde)">🌸</div>
+      <h4>Dermatology</h4><p>Skin, hair, nail conditions & laser treatments</p>
+      <span class="dept-count">7 doctors</span>
+    </a>
+    <a href="pages/doctors.html?dept=Gynaecology" class="dept-card animate-up s1">
+      <div class="dept-icon" style="background:linear-gradient(135deg,#fee,#fcd)">🌺</div>
+      <h4>Gynaecology</h4><p>Women's health, maternity & reproductive care</p>
+      <span class="dept-count">10 doctors</span>
+    </a>
+    <a href="pages/doctors.html?dept=General Medicine" class="dept-card animate-up s2">
+      <div class="dept-icon" style="background:linear-gradient(135deg,#eff,#def)">🩺</div>
+      <h4>General Medicine</h4><p>Primary care, check-ups & chronic disease management</p>
+      <span class="dept-count">22 doctors</span>
+    </a>
+    <a href="pages/doctors.html" class="dept-card animate-up s3" style="border-style:dashed">
+      <div class="dept-icon" style="background:var(--teal-glow)">➕</div>
+      <h4>More Specialities</h4><p>View all 18 departments and 200+ verified specialists</p>
+      <span class="dept-count">View all →</span>
+    </a>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="stats-band-grid">
+    <div class="stat-item animate-up"><div class="stat-num" data-count="50000" data-suffix="+">50,000+</div><div class="stat-label">Patients Served</div></div>
+    <div class="stat-item animate-up s1"><div class="stat-num" data-count="200" data-suffix="+">200+</div><div class="stat-label">Specialist Doctors</div></div>
+    <div class="stat-item animate-up s2"><div class="stat-num" data-count="18">18</div><div class="stat-label">Departments</div></div>
+    <div class="stat-item animate-up s3"><div class="stat-num">24×7</div><div class="stat-label">Emergency Care</div></div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section how-section">
+  <div class="section-header center">
+    <div class="eyebrow animate-up" style="color:var(--teal-light)">Simple Process</div>
+    <h2 class="animate-up s1" style="color:white">Book in 3 easy steps</h2>
+    <p class="animate-up s2" style="color:rgba(255,255,255,0.5);margin-top:14px">No calls. No queues. Instant confirmed bookings.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card animate-up" style="position:relative">
+      <div class="step-num">01</div>
+      <div class="step-icon">🔍</div>
+      <h4>Search & Choose</h4>
+      <p>Find your specialist by department, availability, or name. Read verified patient reviews.</p>
+      <div class="step-arrow">›</div>
+    </div>
+    <div class="step-card animate-up s1" style="position:relative">
+      <div class="step-num">02</div>
+      <div class="step-icon">📅</div>
+      <h4>Pick Your Slot</h4>
+      <p>Choose from real-time available slots. In-person or video consultation options.</p>
+      <div class="step-arrow">›</div>
+    </div>
+    <div class="step-card animate-up s2">
+      <div class="step-num">03</div>
+      <div class="step-icon">✅</div>
+      <h4>Get Confirmed</h4>
+      <p>Fill your details and receive instant confirmation with your unique appointment ID.</p>
+    </div>
+  </div>
+  <div class="text-center mt-8 animate-up" style="margin-top:48px">
+    <a href="pages/booking.html" class="btn btn-white btn-lg">Book Now — It's Free →</a>
+  </div>
+</section>
+
+<!-- FEATURED DOCTORS -->
+<section class="section doctors-section">
+  <div class="section-header" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+    <div>
+      <div class="eyebrow animate-up">Top Rated</div>
+      <h2 class="animate-up s1">Meet our specialist doctors</h2>
+    </div>
+    <a href="pages/doctors.html" class="btn btn-outline animate-up s2">View All 200+ →</a>
+  </div>
+  <div class="doctors-grid" id="home-doctors"></div>
+</section>
+
+<!-- WHY MEDICARE -->
+<section class="section why-section">
+  <div class="section-header center">
+    <div class="eyebrow animate-up">Why MediCare</div>
+    <h2 class="animate-up s1">Healthcare you can trust completely</h2>
+    <p class="animate-up s2" style="margin-top:14px">Founded in 1998 with a single vision — making world-class healthcare accessible to every Indian.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card animate-up"><div class="why-icon">🏥</div><h4>NABH Accredited</h4><p>Our hospital meets the highest national standards for patient care, safety, and clinical quality.</p></div>
+    <div class="why-card animate-up s1"><div class="why-icon">⚡</div><h4>Instant Booking</h4><p>Confirm your slot in under 2 minutes — no phone calls, no queues. Available 24×7.</p></div>
+    <div class="why-card animate-up s2"><div class="why-icon">🔒</div><h4>Secure & Private</h4><p>Your health data is encrypted end-to-end and never shared without your explicit consent.</p></div>
+    <div class="why-card animate-up s3"><div class="why-icon">💊</div><h4>Post-Visit Care</h4><p>Digital prescriptions, follow-up reminders, lab results, and teleconsultation support.</p></div>
+    <div class="why-card animate-up"><div class="why-icon">🌐</div><h4>Video Consultation</h4><p>Consult top specialists from home. Full HD video, same expert care.</p></div>
+    <div class="why-card animate-up s1"><div class="why-icon">📋</div><h4>Digital Health Records</h4><p>All your reports, prescriptions, and visit history in one secure, shareable profile.</p></div>
+    <div class="why-card animate-up s2"><div class="why-icon">💳</div><h4>Insurance Accepted</h4><p>We accept all major health insurance providers with cashless claim settlement.</p></div>
+    <div class="why-card animate-up s3"><div class="why-icon">🚑</div><h4>24×7 Emergency</h4><p>Emergency department staffed round the clock with senior specialists and critical care teams.</p></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testimonials-section" style="background:var(--mist)">
+  <div class="section-header center">
+    <div class="eyebrow animate-up">Patient Stories</div>
+    <h2 class="animate-up s1">Thousands trust MediCare every day</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card animate-up">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Booking was incredibly smooth. I got an appointment with a senior cardiologist the same day. The doctor was thorough and genuinely caring."</p>
+      <div class="testi-author"><div class="testi-av" style="background:#0a7c7c">SK</div><div><div class="testi-name">Suresh Kumar</div><div class="testi-loc">Chennai · Cardiology</div></div></div>
+    </div>
+    <div class="testi-card animate-up s1">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Found a paediatrician in minutes for my child's midnight fever, booked a slot, and we were seen within the hour. The care was truly exceptional."</p>
+      <div class="testi-author"><div class="testi-av" style="background:#4a6741">PN</div><div><div class="testi-name">Priya Nair</div><div class="testi-loc">Chennai · Paediatrics</div></div></div>
+    </div>
+    <div class="testi-card animate-up s2">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"After my knee injury I found an orthopaedic specialist the same evening. The digital prescription and follow-up reminders are incredibly convenient."</p>
+      <div class="testi-author"><div class="testi-av" style="background:#8b3a2a">AR</div><div><div class="testi-name">Arjun Reddy</div><div class="testi-loc">Madurai · Orthopaedics</div></div></div>
+    </div>
+    <div class="testi-card animate-up">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The video consultation feature is a game changer. Spoke with a neurologist about my migraines without leaving home. Clear, detailed advice."</p>
+      <div class="testi-author"><div class="testi-av" style="background:#3a5a8a">LM</div><div><div class="testi-name">Lakshmi Murthy</div><div class="testi-loc">Coimbatore · Neurology</div></div></div>
+    </div>
+    <div class="testi-card animate-up s1">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Insurance cashless settlement was completely hassle-free. The staff guided me through every step. First time I had a hospital experience with zero stress."</p>
+      <div class="testi-author"><div class="testi-av" style="background:#6a3a8a">RV</div><div><div class="testi-name">Ravi Venkatesh</div><div class="testi-loc">Madurai · General Medicine</div></div></div>
+    </div>
+    <div class="testi-card animate-up s2">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"As a senior citizen I was worried about navigating a hospital website. MediCare's booking flow is so simple my daughter helped me in 3 minutes."</p>
+      <div class="testi-author"><div class="testi-av" style="background:#1a4a1a">SG</div><div><div class="testi-name">Savitri Gopal</div><div class="testi-loc">Chennai · Senior Care</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HEALTH TIPS -->
+<section class="section">
+  <div class="section-header" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+    <div>
+      <div class="eyebrow animate-up">Health Insights</div>
+      <h2 class="animate-up s1">Expert health tips from our doctors</h2>
+    </div>
+    <a href="pages/services.html" class="btn btn-outline animate-up s2">View All Articles →</a>
+  </div>
+  <div class="blog-grid" id="blog-grid"></div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <div class="eyebrow animate-up" style="color:var(--teal-light);justify-content:center">Get Started Today</div>
+  <h2 class="animate-up s1">Ready to take charge of your health?</h2>
+  <p class="animate-up s2">Join 50,000+ patients who trust MediCare for expert healthcare.</p>
+  <div class="cta-band-btns animate-up s3">
+    <a href="pages/booking.html" class="btn btn-primary btn-lg">Book Appointment →</a>
+    <a href="pages/doctors.html" class="btn btn-ghost btn-lg">Browse Doctors</a>
+  </div>
+</div>
+
+<!-- EMERGENCY BANNER -->
+<section class="emergency-section">
+  <div class="emergency-inner animate-up">
+    <div class="emergency-icon">🚨</div>
+    <div>
+      <h3>Medical Emergency?</h3>
+      <p>Our emergency department is open 24×7 with senior doctors on standby. Call us immediately.</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="tel:+911800123456" class="btn btn-white">📞 Call 1800-123-456</a>
+      <a href="tel:108" class="btn btn-ghost">🚑 Dial 108</a>
+      <a href="pages/contact.html" class="btn btn-ghost">📍 Find Us</a>
+    </div>
+  </div>
+</section>
+
+<footer></footer>
+<script src="js/app.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>
