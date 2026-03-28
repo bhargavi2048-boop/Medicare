@@ -16,8 +16,8 @@
 **A fully responsive, production-grade hospital website built with pure HTML, CSS and JavaScript.**  
 Zero frameworks. Zero dependencies. Open directly in any browser.
 
-Demo Link : "https://medicare-smart.netlify.app"
-Demo Video : "https://drive.google.com/file/d/1MTQ59w9Tx5_PkckZqWLg9SIUuGcT5TwP/view?usp=sharing"
+                                Demo Link : "https://medicare-smart.netlify.app"                                                                             
+            Demo Video : "https://drive.google.com/file/d/1MTQ59w9Tx5_PkckZqWLg9SIUuGcT5TwP/view?usp=sharing"
 
 <br/>
 
