@@ -17,7 +17,7 @@
 Zero frameworks. Zero dependencies. Open directly in any browser.
 
 Demo Link : "https://medicare-smart.netlify.app"
-Demo Video : "
+
 
 <br/>
 
